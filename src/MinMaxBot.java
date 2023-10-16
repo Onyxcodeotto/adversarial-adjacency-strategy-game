@@ -30,17 +30,16 @@ public class MinMaxBot extends BaseBot{
                         return result;
                     }
                 }
-                return bestMove;
             }else{
                 //minimizing
-                int minval = this.MIN_INIT;
+                int minvalue = this.MIN_INIT;
                 int localBeta = beta;
-                for (Coordinate move : state.getEmptyTile()){
+                for (Coordinate move : this.state.getEmptyTile()){
                     this.state.fill(move, this.state.getPlayerPiece());
                     MinMaxIntermediate result = this.solve(true, alpha, localBeta, depth-1);
                     this.state.reverse(move);
                     int newval = result.getVal()
-                    if(newval<minval){
+                    if(newval<minvalue){
                         bestMove = result;
                     }
                     if(newval< localBeta){
@@ -50,8 +49,8 @@ public class MinMaxBot extends BaseBot{
                         return result;
                     }
                 }
-                return bestMove;
             }
+            return bestMove;
         }
     }
 }
@@ -59,30 +58,9 @@ public class MinMaxBot extends BaseBot{
 
 //what happen if i store best move outside solve?
 //if times out,
-public class Coordinate{
-    private int coor;
 
-}
 
-public class MinMaxIntermediate{
-    private int val;
-    private Coordinate move;
-    public MinMaxIntermediate(Coordinate move, int val){
-        this.val = val;
-        this.move = move;
-    }
-    public MinMaxIntermediate(int val){
-        //dummy constructor
-        //masih nggak tahu dipakai atau nggak
-        //biar nggak harus mindahin move
-    }
-    public int getVal(){
-        return this.val;
-    }
-    public Coordinate getMove(){
-        return this.move;
-    }
-}
+
 // def minMax(self, isMaximizing, alpha, beta):
 // # Draw end
 // if self.board.checkDraw() and self.board.checkWinner() == "-":
