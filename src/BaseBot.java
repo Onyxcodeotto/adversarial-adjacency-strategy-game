@@ -1,5 +1,3 @@
-
-
 public class BaseBot {
     protected GameState state;
 
@@ -12,8 +10,3 @@ public class BaseBot {
         return new int[]{(int) (Math.random()*8), (int) (Math.random()*8)};
     }
 }
-
-
-
-
-// TIDAK BISA DI-COMPILE. Nama kelas harus sama dengan nama file.
