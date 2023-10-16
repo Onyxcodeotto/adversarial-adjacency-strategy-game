@@ -1,7 +1,7 @@
 public class MinMaxBot extends BaseBot{
     private int maxDepth;
-    private int MAX_INIT = -1000;
-    private int MIN_INIT = 1000;
+    private int MAX_INIT = -100;
+    private int MIN_INIT = 100;
     public int[] move() {
         MinMaxIntermediate result = this.solve(true, this.MAX_INIT, this.MIN_INIT, maxDepth);
     }
@@ -38,12 +38,12 @@ public class MinMaxBot extends BaseBot{
                     this.state.fill(move, this.state.getPlayerPiece());
                     MinMaxIntermediate result = this.solve(true, alpha, localBeta, depth-1);
                     this.state.reverse(move);
-                    int newval = result.getVal()
-                    if(newval<minvalue){
+                    int newValue = result.getVal()
+                    if(newValue<minvalue){
                         bestMove = result;
                     }
-                    if(newval< localBeta){
-                        localBeta = newval;
+                    if(newValue< localBeta){
+                        localBeta = newValue;
                     }
                     if(alpha>localBeta){
                         return result;
