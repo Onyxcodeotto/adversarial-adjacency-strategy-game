@@ -1,9 +1,7 @@
-
-
-public class BaseBot {
+public class Bot {
     protected GameState state;
 
-    public BaseBot(GameState state) {
+    public Bot(GameState state) {
         this.state = state;
     }
 
@@ -11,9 +9,8 @@ public class BaseBot {
         // create random move
         return new int[]{(int) (Math.random()*8), (int) (Math.random()*8)};
     }
+
+    public void updateGameState(GameState state) {
+        this.state = state;
+    }
 }
-
-
-
-
-// TIDAK BISA DI-COMPILE. Nama kelas harus sama dengan nama file.

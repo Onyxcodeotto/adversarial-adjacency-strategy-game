@@ -69,15 +69,47 @@ public class OutputFrameController {
      * @param isBotFirst True if bot is first, false otherwise.
      *
      */
-    void getInput(String name1, String name2, String rounds, boolean isBotFirst){
+
+    // PERLU DIPERIKSA ULANG!!
+    void getInput(String name1, String name2, String rounds, boolean isBotFirst, char botType){
         this.playerXName.setText(name1);
         this.playerOName.setText(name2);
         this.roundsLeftLabel.setText(rounds);
         this.roundsLeft = Integer.parseInt(rounds);
         this.isBotFirst = isBotFirst;
 
+        // Constructing the GameState
+        GameState state = new GameState();
+        state.roundRemaining = this.roundsLeft;
+        state.aiPiece = 'O';
+        state.playerPiece = 'X';
+        state.playerScore = this.playerXScore;
+        state.botScore = this.playerOScore;
+        // Making PseudoMap from Buttons
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                String content = this.buttons[row][col].getText();
+                if (content.equals("")) {
+                    state.map[row][col] = '';
+                } else if (content.equals("X")) {
+                    state.map[row][col] = 'X';
+                } else if (content.equals("O")) {
+                    state.map[row][col] = 'O';
+                }
+            }
+        }
+
         // Start bot
-        this.bot = new Bot();
+        if (botType == '1') {
+            this.bot = new LocalSearchBot(state, 'O', 'X');
+        } else if (botType == '2') {
+            this.bot = new MinMaxBot(state);
+        // } else if (botType == '3') {
+        //     this.bot = new GeneticBot(state);
+        } else { //default
+            this.bot = new MinMaxBot(state);
+        }
+        
         this.playerXTurn = !isBotFirst;
         if (this.isBotFirst) {
             this.moveBot();
@@ -353,6 +385,15 @@ public class OutputFrameController {
     }
 
     private void moveBot() {
+        
+        // UPDATING GAME STATE
+        GameState state = new GameState();
+        state.roundRemaining = this.roundsLeft;
+        state.playerScore = this.playerXScore;
+        state.botScore = this.playerOScore;
+        this.bot.updateGameState(state);
+        
+        // BOT MOVE
         int[] botMove = this.bot.move();
         int i = botMove[0];
         int j = botMove[1];

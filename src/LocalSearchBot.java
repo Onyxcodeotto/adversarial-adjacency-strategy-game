@@ -1,4 +1,4 @@
-public class LocalSearchBot extends BaseBot {
+public class LocalSearchBot extends Bot {
     private char mark;
     private char opponentMark;
     // Constructor

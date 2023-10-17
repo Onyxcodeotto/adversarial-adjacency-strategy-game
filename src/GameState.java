@@ -1,4 +1,4 @@
-public class GameState{
+public class GameState {
 
     private int roundRemaining;
     private char aiPiece;
@@ -7,7 +7,6 @@ public class GameState{
     private PseudoMap map;
     private int playerScore;
     private int botScore;
-    private int currentRound;
 
     public static final int ROW = 8;
     public static final int COL = 8;
@@ -16,30 +15,52 @@ public class GameState{
     */
     
     public GameState() {
-
+        this.map = new PseudoMap();
     }
 
     public boolean isGameEnded(){
         return roundRemaining==0;
     }
+
     public Coordinate[] getEmptyTile(){
-        return (new Coordinate[64]); //MASIH PROTOTYPE!
+        Coordinate[] coorList = new Coordinate[64];
+        int i = 0;
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (map[row][col].equals('')) {
+                    Coordinate available = new Coordinate(row, col);
+                    coorList[i] = available;
+                    i = i + 1;
+                }
+            }
+        }
+        return (coorList);
     }
+
     public char getAIPiece(){
         return this.aiPiece;
     }
+
     public char getPlayerPiece(){
         return this.playerPiece;
     }
-    public void fill(Coordinate move, char piece){
 
+    public void fill(Coordinate move, char piece){
+        this.map.set(move.getX(), move.get(Y), piece);
+        this.map.set(move.getX()+1, move.get(Y), piece);
+        this.map.set(move.getX(), move.get(Y)+1, piece);
+        this.map.set(move.getX()-1, move.get(Y), piece);
+        this.map.set(move.getX(), move.get(Y)-1, piece);
     }
+
     public void reverse(Coordinate move){
-        
+        // Ini prosedur buat apa ya?
     }
+
     public Coordinate getLastMove(){
+        // Ini prosedur buat apa ya?
         Coordinate coor = new Coordinate(0,0);
-        return (coor);  //MASIH PROTOTYPE!
+        return (coor); //MASIH PROTOTYPE!!
     }
 
     public int getPlayerScore() {

@@ -1,7 +1,12 @@
-public class MinMaxBot extends BaseBot{
+public class MinMaxBot extends Bot{
     private int maxDepth;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
+    
+    public MinMaxBot(GameState state) {
+        super(state);
+    }
+    
     public int[] move() {
         MinMaxIntermediate result = this.solve(true, this.MAX_INIT, this.MIN_INIT, maxDepth);
     }
