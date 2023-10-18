@@ -6,11 +6,12 @@ public class Population {
     private ArrayList<Chromosome> individuals;
     private ArrayList<Integer> emptyTiles;
     private PrefixTree reservationTree;
-    private int maxTurns;
+    private final int maxTurns;
     private char[][] gameMap;
-    private char playerPiece;
-    private char opponentPiece;
+    private final char playerPiece;
+    private final char opponentPiece;
     private static final int INITIAL_POPULATION_SIZE = 1000;
+    private static final int MAX_ITERATIONS = 5;
 
     public Population(int maxTurns, char playerPiece, char opponentPiece) {
         this.maxTurns = maxTurns;
@@ -23,33 +24,21 @@ public class Population {
         this.gameMap = gameMap;
     }
 
-    public ArrayList<Chromosome> getIndividuals() {
-        return individuals;
-    }
-
-    public void setIndividuals(ArrayList<Chromosome> individuals) {
-        this.individuals = individuals;
-    }
-
-    public ArrayList<Integer> getEmptyTiles() {
-        return emptyTiles;
-    }
-
     public void setEmptyTiles(ArrayList<Integer> emptyTiles) {
         this.emptyTiles = emptyTiles;
     }
 
-    public void naturalSelection() {
+    public int naturalSelection() throws Exception {
         this.generateInitialPopulations();
         this.reservationTree = new PrefixTree();
         // Selection and reproduction process is done multiple times
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < MAX_ITERATIONS; i++) {
             this.individuals.forEach(individual -> {
                 reservationTree.insertSequence(individual, this.gameMap, this.playerPiece, this.opponentPiece);
             });
             this.reservationTree.calculateAllFitness();
             this.reproduce();
-            if (i != 4) {
+            if (i != MAX_ITERATIONS - 1) {
                 this.reservationTree = new PrefixTree();
             }
         }
@@ -64,7 +53,10 @@ public class Population {
         if (firstChildWithMaxStateValue.isPresent()) {
             System.out.println("Action to take: ");
             System.out.println(firstChildWithMaxStateValue.get().content);
+            return firstChildWithMaxStateValue.get().content;
         }
+
+        throw new Exception("Failed to find action");
     }
 
     public void generateInitialPopulations() {
@@ -139,6 +131,10 @@ public class Population {
             emptyTiles.add(i);
         }
         population.setEmptyTiles(emptyTiles);
-        population.naturalSelection();
+        try {
+            population.naturalSelection();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

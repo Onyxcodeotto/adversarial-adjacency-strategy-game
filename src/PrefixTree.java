@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class PrefixTree {
-    private static final int ROOT_DUMMY_VALUE = -1;
-    private static final int MAX_DEPTH = 10;
+    private static final int DUMMY_ROOT_CONTENT = -1;
+//    private static final int MAX_DEPTH = 10;
     private final Node root;
     public PrefixTree() {
-        this.root = new Node(ROOT_DUMMY_VALUE);
+        this.root = new Node(DUMMY_ROOT_CONTENT);
     }
 
     public Node getRoot() {
@@ -53,9 +53,9 @@ public class PrefixTree {
 
     public void calculateAllFitness() {
         this.root.minimax(true);
-        ArrayList<Integer> sequenceStack = new ArrayList<>();
+        ArrayList<Integer> stateValueStack = new ArrayList<>();
         for (Node child : this.root.children) {
-            child.dfs(sequenceStack);
+            child.dfs(stateValueStack);
         }
     }
 
@@ -119,15 +119,15 @@ class Node {
     /**
      * Ini gunanya buat nyari daun yang paling bisa mempertahankan state value-nya sampe atas
      * Semakin lama bisa mempertahankan state value -> fitness semakin tinggi
-     * @param sequenceStack
+     * @param stateValueStack
      */
-    public void dfs(ArrayList<Integer> sequenceStack) {
-        sequenceStack.add(this.stateValue);
+    public void dfs(ArrayList<Integer> stateValueStack) {
+        stateValueStack.add(this.stateValue);
         if (this.children.isEmpty()) {
             int lastStateValue = this.stateValue;
             int fitnessValue = 1;
-            for (int i = sequenceStack.size() - 1; i >= 0; i--) {
-                if (sequenceStack.get(i) != lastStateValue) {
+            for (int i = stateValueStack.size() - 1; i >= 0; i--) {
+                if (stateValueStack.get(i) != lastStateValue) {
                     break;
                 }
                 fitnessValue++;
@@ -136,9 +136,9 @@ class Node {
         }
         else {
             this.children.forEach(child -> {
-                child.dfs(sequenceStack);
+                child.dfs(stateValueStack);
             });
         }
-        sequenceStack.remove(sequenceStack.size() - 1);
+        stateValueStack.remove(stateValueStack.size() - 1);
     }
 }
