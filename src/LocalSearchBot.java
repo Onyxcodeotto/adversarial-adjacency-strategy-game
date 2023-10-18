@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class LocalSearchBot extends Bot {
     private char mark;
     private char opponentMark;
@@ -63,7 +65,7 @@ public class LocalSearchBot extends Bot {
         PseudoMap map = this.state.getMap();
 
         // Generate All possible move => Will be used for generate successors
-        Coordinate[] possibleMoves = this.state.getEmptyTile();
+        ArrayList<Coordinate> possibleMoves = this.state.getEmptyTile();
 
         // Evaluate All Successors while search for the neighbor state (optimum move)
         for (Coordinate coor: possibleMoves){

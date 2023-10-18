@@ -119,7 +119,9 @@ public class GameState {
     public Coordinate getLastMove(){
         return moveStack.peek().getCoor();
     }
-
+    public int getRoundRemaining(){
+        return this.roundRemaining;
+    }
     public int getPlayerScore() {
         return playerScore;
     }

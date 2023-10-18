@@ -19,7 +19,7 @@ public class GeneticAlgorithmBot extends Bot {
 
     public void initializeStates() {
         this.emptyTiles = new ArrayList<>();
-        Coordinate[] emptyTilesCoordinate = state.getEmptyTile();
+        ArrayList<Coordinate> emptyTilesCoordinate = state.getEmptyTile();
         for (Coordinate coordinate : emptyTilesCoordinate) {
             this.emptyTiles.add(coordinate.getX() * COLS + coordinate.getY());
         }
@@ -38,16 +38,20 @@ public class GeneticAlgorithmBot extends Bot {
     public int[] move() {
         this.initializeStates();
         try {
+
             int result = this.population.naturalSelection();
             int rowToFill = result / ROWS;
             int colToFill = result % COLS;
+            System.out.println("Calculated Move");
             return new int[] {rowToFill, colToFill};
         } catch (Exception e) {
-            Coordinate[] emptyTile = this.state.getEmptyTile();
+            System.out.println("Random Move");
+            System.out.println(e.getMessage());
+            ArrayList<Coordinate> emptyTile = this.state.getEmptyTile();
             Random random = new Random();
-            int randomIndex = random.nextInt(emptyTile.length);
-            int rowToFill = emptyTile[randomIndex].getX();
-            int colToFill = emptyTile[randomIndex].getY();
+            int randomIndex = random.nextInt(emptyTile.size());
+            int rowToFill = emptyTile.get(randomIndex).getX();
+            int colToFill = emptyTile.get(randomIndex).getY();
             return new int[] {rowToFill, colToFill};
         }
     }
