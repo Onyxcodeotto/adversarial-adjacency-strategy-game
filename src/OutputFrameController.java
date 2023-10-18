@@ -244,7 +244,7 @@ public class OutputFrameController {
             else {
                 this.playerXBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
                 this.playerOBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
-                this.buttons[i][j].setText("X");
+                this.buttons[i][j].setText(" X ");
                 this.playerOScore++;
 
                 this.updateGameBoard(i, j);
