@@ -1,5 +1,5 @@
 public class MinMaxBot extends Bot{
-    private int maxDepth;
+    private int maxDepth = 5;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
 
@@ -7,37 +7,46 @@ public class MinMaxBot extends Bot{
     public MinMaxBot(GameState state) {
         super(state);
     }
-    
+
     public int[] move() {
         MinMaxIntermediate result = this.solve(true, this.MAX_INIT, this.MIN_INIT, maxDepth);
+        System.out.print(result.getMove().getX());
+        System.out.print(" ");
+        System.out.println(result.getMove().getY());
+        return new int[]{(int) (result.getMove().getX()), (int) (result.getMove().getY())};
     }
 
     public MinMaxIntermediate solve(boolean isMaximizing, int alpha, int beta, int depth){//return x, y, and score
         if(this.state.isGameEnded() || depth==0){
+
             return new MinMaxIntermediate(this.state.getLastMove(), this.state.evaluate());
         }else{
-            MinMaxIntermediate bestMove;
+
             if(isMaximizing){
+                MinMaxIntermediate bestMove = new MinMaxIntermediate(new Coordinate(-1,-1), this.MAX_INIT);
                 int maxval = this.MAX_INIT;
                 int localAlpha = alpha;
-                for (Coordinate move : state.getEmptyTile()) {
+                for (Coordinate move : this.state.getEmptyTile()) {
                     this.state.fill(move, this.state.getAIPiece());
                     MinMaxIntermediate result = this.solve(false, localAlpha, beta, depth-1);
                     this.state.reverse();
                     int newval = result.getVal();
                     if(newval>maxval){
                         bestMove = result;
+                        maxval = newval;
                     }
                     if(newval>localAlpha){
                         localAlpha = newval;
                     }
-                    if(localAlpha>beta){
+                    if(localAlpha>=beta){
                         //return dummy or result, whichever more efficient
                         return result;
                     }
                 }
+                return bestMove;
             }else{
                 //minimizing
+                MinMaxIntermediate bestMove = new MinMaxIntermediate(new Coordinate(-1,-1), this.MIN_INIT);
                 int minvalue = this.MIN_INIT;
                 int localBeta = beta;
                 for (Coordinate move : this.state.getEmptyTile()){
@@ -47,16 +56,20 @@ public class MinMaxBot extends Bot{
                     int newValue = result.getVal();
                     if(newValue<minvalue){
                         bestMove = result;
+                        minvalue = newValue;
                     }
                     if(newValue< localBeta){
                         localBeta = newValue;
+
                     }
-                    if(alpha>localBeta){
+                    if(alpha>=localBeta){
                         return result;
                     }
                 }
+                return bestMove;
             }
-            return bestMove;
+
+
         }
     }
 }

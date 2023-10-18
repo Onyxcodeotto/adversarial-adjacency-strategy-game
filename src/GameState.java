@@ -1,3 +1,5 @@
+import java.util.Stack;
+import java.util.ArrayList;
 public class GameState {
 
     private int roundRemaining;
@@ -13,28 +15,30 @@ public class GameState {
     /*We may store stack of move to store last move so we dont need parameter
      * for getLastMove() and reverse()
     */
-    
+    private Stack<IntermediateMove> moveStack;
+
     public GameState() {
         this.map = new PseudoMap();
+        this.moveStack = new Stack<>();
     }
 
     public boolean isGameEnded(){
         return roundRemaining==0;
     }
 
-    public Coordinate[] getEmptyTile(){
-        Coordinate[] coorList = new Coordinate[64];
+    public ArrayList<Coordinate> getEmptyTile(){
+        ArrayList<Coordinate> coorList = new ArrayList<>();
         int i = 0;
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                if (map[row][col].equals(' ')) {
+                if (this.map.get(row,col) == ' ') {
                     Coordinate available = new Coordinate(row, col);
-                    coorList[i] = available;
+                    coorList.add(available);
                     i = i + 1;
                 }
             }
         }
-        return (coorList);
+        return coorList;
     }
 
     public char getAIPiece(){
@@ -44,98 +48,76 @@ public class GameState {
     public char getPlayerPiece(){
         return this.playerPiece;
     }
+    public void change(int i, int j, char piece){
+        if(piece == ' ' || this.map.get(i,j) == ' '){return;}
+        if(piece != this.map.get(i,j)){
+            if (piece == this.getAIPiece()){
+                this.playerScore--;
+                this.botScore++;
+            }else{
+                this.playerScore++;
+                this.botScore--;
+            }
+            this.map.set(i,j,piece);
+        }
+    }
 
     public void fill(Coordinate move, char piece){
         char oldPiece, newPiece;
-        this.map.set(move.getX(), move.get(Y), piece);
-
+        this.map.set(move.getX(), move.getY(), piece);
+        IntermediateMove oldMove = new IntermediateMove();
+        oldMove.setCoor(move.getX(), move.getY());
         if (move.getX()-1 >= 0) {
-            oldPiece = this.map.get(move.getX()-1, move.getY());
-            this.map.set(move.getX()-1, move.getY(), piece);
-            newPiece = this.map.get(move.getX()-1, move.getY());
-            if (oldPiece != newPiece) {
-                if (piece == 'X') {
-                    this.playerScore = this.playerScore + 1;
-                    if (oldPiece == 'O') {
-                        this.botScore = this.botScore - 1;
-                    }
-                } else { //piece == 'O'
-                    this.botScore = this.botScore + 1;
-                    if (oldPiece == 'X') {
-                        this.playerScore = this.playerScore - 1;
-                    }
-                }
-            }
+            oldMove.setLeft(this.getMap().get(move.getX()-1, move.getY()));
+            this.change(move.getX()-1, move.getY(), piece);
         }
-        
+
         if (move.getX()+1 <= 7) {
-            oldPiece = this.map.get(move.getX()+1, move.getY());
-            this.map.set(move.getX()+1, move.getY(), piece);
-            newPiece = this.map.get(move.getX()+1, move.getY());
-            if (oldPiece != newPiece) {
-                if (piece == 'X') {
-                    this.playerScore = this.playerScore + 1;
-                    if (oldPiece == 'O') {
-                        this.botScore = this.botScore - 1;
-                    }
-                } else { //piece == 'O'
-                    this.botScore = this.botScore + 1;
-                    if (oldPiece == 'X') {
-                        this.playerScore = this.playerScore - 1;
-                    }
-                }
-            }
+            oldMove.setRight(this.getMap().get(move.getX()+1, move.getY()));
+            this.change(move.getX()+1, move.getY(), piece);
         }
 
         if (move.getY()+1 <= 7) {
-            oldPiece = this.map.get(move.getX(), move.getY()+1);
-            this.map.set(move.getX(), move.getY()+1, piece);
-            newPiece = this.map.get(move.getX(), move.getY()+1);
-            if (oldPiece != newPiece) {
-                if (piece == 'X') {
-                    this.playerScore = this.playerScore + 1;
-                    if (oldPiece == 'O') {
-                        this.botScore = this.botScore - 1;
-                    }
-                } else { //piece == 'O'
-                    this.botScore = this.botScore + 1;
-                    if (oldPiece == 'X') {
-                        this.playerScore = this.playerScore - 1;
-                    }
-                }
-            }
+            oldMove.setUp(this.getMap().get(move.getX(), move.getY()+1) );
+            this.change(move.getX(), move.getY()+1,piece);
         }
 
         if (move.getY()-1 >= 0) {
-            oldPiece = this.map.get(move.getX(), move.getY()-1);
-            this.map.set(move.getX(), move.getY()-1, piece);
-            newPiece = this.map.get(move.getX(), move.getY()-1);
-            if (oldPiece != newPiece) {
-                if (piece == 'X') {
-                    this.playerScore = this.playerScore + 1;
-                    if (oldPiece == 'O') {
-                        this.botScore = this.botScore - 1;
-                    }
-                } else { //piece == 'O'
-                    this.botScore = this.botScore + 1;
-                    if (oldPiece == 'X') {
-                        this.playerScore = this.playerScore - 1;
-                    }
-                }
-            }
-        }
+            oldMove.setBottom(this.getMap().get(move.getX(), move.getY()-1));
+            this.change(move.getX(), move.getY()-1, piece);
 
+        }
+        this.moveStack.push(oldMove);
+        this.roundRemaining--;
 
     }
 
-    public void reverse(Coordinate move){
-        // Ini prosedur buat apa ya?
+    public void reverse(){
+        IntermediateMove last = moveStack.pop();
+        Coordinate coor = last.getCoor();
+        this.map.set(coor,' ');
+
+        if(coor.getX()-1>=0){
+            //left
+            this.change(coor.getX() -1, coor.getY(), last.getLeft());
+        }
+        if(coor.getX()+1<=7){
+            //right
+            this.change(coor.getX() +1, coor.getY(), last.getRight());
+        }
+        if(coor.getY()-1>=0){
+            this.change(coor.getX(), coor.getY()-1, last.getBottom());
+        }
+
+        if(coor.getY()+1<=7){
+            this.change(coor.getX(), coor.getY()+1, last.getUp());
+        }
+
+        this.roundRemaining++;
     }
 
     public Coordinate getLastMove(){
-        // Ini prosedur buat apa ya?
-        Coordinate coor = new Coordinate(0,0);
-        return (coor); //MASIH PROTOTYPE!!
+        return moveStack.peek().getCoor();
     }
 
     public int getPlayerScore() {
@@ -161,5 +143,9 @@ public class GameState {
 
     public void setBotScore(int botScore) {
         this.botScore = botScore;
+    }
+
+    public int evaluate(){
+        return this.getBotScore()- this.getPlayerScore();
     }
 }

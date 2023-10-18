@@ -386,7 +386,7 @@ public class OutputFrameController {
         int[] botMove = this.bot.move();
         int i = botMove[0];
         int j = botMove[1];
-
+        this.bot.getState().fill(new Coordinate(i, j), this.bot.getState().getAIPiece());
         if (!this.buttons[i][j].getText().equals("")) {
             new Alert(Alert.AlertType.ERROR, "Bot Invalid Coordinates. Exiting.").showAndWait();
             System.exit(1);
@@ -401,6 +401,7 @@ public class OutputFrameController {
         int[] botMove = this.bot.move();
         int i = botMove[0];
         int j = botMove[1];
+        this.bot.getState().fill(new Coordinate(i, j), this.bot.getState().getAIPiece());
 
         if (!this.buttons[i][j].getText().equals("")) {
             new Alert(Alert.AlertType.ERROR, "Bot Invalid Coordinates. Exiting.").showAndWait();
