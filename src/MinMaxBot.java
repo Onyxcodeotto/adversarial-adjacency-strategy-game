@@ -1,5 +1,5 @@
 public class MinMaxBot extends Bot{
-    private int maxDepth = 9;
+    private int maxDepth = 6;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
 
@@ -18,11 +18,12 @@ public class MinMaxBot extends Bot{
 
     public MinMaxIntermediate solve(boolean isMaximizing, int alpha, int beta, int depth){//return x, y, and score
         if(this.state.isGameEnded() || depth==0){
-
+//            this.getState().printReport();
             return new MinMaxIntermediate(this.state.getLastMove(), this.state.evaluate());
         }else{
 
             if(isMaximizing){
+
                 MinMaxIntermediate bestMove = new MinMaxIntermediate(new Coordinate(-1,-1), this.MAX_INIT);
                 int maxval = this.MAX_INIT;
                 int localAlpha = alpha;
@@ -35,6 +36,7 @@ public class MinMaxBot extends Bot{
                         bestMove = result;
                         maxval = newval;
                     }
+
                     if(newval>localAlpha){
                         localAlpha = newval;
                     }
@@ -65,6 +67,7 @@ public class MinMaxBot extends Bot{
                     if(alpha>=localBeta){
                         return result;
                     }
+
                 }
                 return bestMove;
             }

@@ -80,7 +80,11 @@ public class OutputFrameController {
 
         // Constructing the GameState
         GameState state = new GameState();
-        state.setRoundRemaining(this.roundsLeft);
+        if(!isBotFirst){
+            state.setRoundRemaining(2*this.roundsLeft);
+        }else{
+            state.setRoundRemaining(2*this.roundsLeft - 1);
+        }
         state.setPlayerScore(this.playerXScore);
         state.setBotScore(this.playerOScore);
         // Making PseudoMap from Buttons
@@ -256,6 +260,7 @@ public class OutputFrameController {
                 }
             }
         }
+
     }
 
     /**
@@ -405,7 +410,13 @@ public class OutputFrameController {
     }
 
     private void moveBot(int row, int col) {
+
         this.bot.getState().fill(new Coordinate(row, col), this.bot.getState().getPlayerPiece());
+        this.bot.getState().printReport();
+        for(Coordinate coor : this.bot.getState().getEmptyTile()){
+            System.out.print("(");System.out.print(coor.getX());System.out.print(",");System.out.print(coor.getY());;System.out.print(")");
+        }
+        System.out.println("");
         int[] botMove = this.bot.move();
         int i = botMove[0];
         int j = botMove[1];

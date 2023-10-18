@@ -88,14 +88,20 @@ public class GameState {
 
         }
         this.moveStack.push(oldMove);
-        this.roundRemaining--;
+        this.roundRemaining-=1;
+        if(piece == this.getPlayerPiece()){
+            this.playerScore++;
+        }else{
+            this.botScore++;
+        }
+
 
     }
 
     public void reverse(){
         IntermediateMove last = moveStack.pop();
         Coordinate coor = last.getCoor();
-        this.map.set(coor,' ');
+
 
         if(coor.getX()-1>=0){
             //left
@@ -112,6 +118,13 @@ public class GameState {
         if(coor.getY()+1<=7){
             this.change(coor.getX(), coor.getY()+1, last.getUp());
         }
+        if(this.map.get(coor.getX(),coor.getY()) == this.getPlayerPiece()){
+            this.playerScore--;
+        }else{
+            this.botScore--;
+        }
+
+        this.map.set(coor,' ');
 
         this.roundRemaining++;
     }
