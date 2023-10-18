@@ -10,7 +10,7 @@ public class Bot {
         return new int[]{(int) (Math.random()*8), (int) (Math.random()*8)};
     }
 
-    public void updateGameState(GameState state) {
-        this.state = state;
+    public GameState getState() {
+        return (this.state);
     }
 }
