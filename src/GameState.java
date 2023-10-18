@@ -88,7 +88,7 @@ public class GameState {
 
         }
         this.moveStack.push(oldMove);
-        this.roundRemaining-=1;
+        this.roundRemaining--;
         if(piece == this.getPlayerPiece()){
             this.playerScore++;
         }else{

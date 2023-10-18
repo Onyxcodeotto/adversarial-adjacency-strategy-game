@@ -1,5 +1,5 @@
 public class MinMaxBot extends Bot{
-    private int maxDepth = 6;
+    private int maxDepth = 9;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
 
@@ -44,6 +44,12 @@ public class MinMaxBot extends Bot{
                         //return dummy or result, whichever more efficient
                         return result;
                     }
+//                    if(maxval>0){
+//                        return bestMove;
+//                    }
+                }
+                if(depth == maxDepth){
+                    System.out.print("Best Score"); System.out.println(bestMove.getVal());
                 }
                 return bestMove;
             }else{
@@ -67,6 +73,9 @@ public class MinMaxBot extends Bot{
                     if(alpha>=localBeta){
                         return result;
                     }
+//                    if(minvalue<0){
+//                        return bestMove;
+//                    }
 
                 }
                 return bestMove;
