@@ -115,8 +115,8 @@ public class Chromosome {
 
     public int calculateFinalStateValue(char[][] gameMap, char playerPiece, char opponentPiece) {
         // Assuming gameMap is always 8x8
-        final int ROWS = 4;
-        final int COLS = 4;
+        final int ROWS = 8;
+        final int COLS = 8;
 
         char[][] gameMapCopy = new char[ROWS][COLS];
         for (int i = 0; i < ROWS; i++) {

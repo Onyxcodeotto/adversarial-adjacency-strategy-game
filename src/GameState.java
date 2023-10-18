@@ -146,6 +146,9 @@ public class GameState {
     public PseudoMap getMap(){
         return this.map;
     }
+//    public int getRoundRemaining() {
+//        return this.roundRemaining;
+//    }
 
     //SETTER
     public void setRoundRemaining(int roundRemaining) {

@@ -28,7 +28,7 @@ public class Population {
         this.emptyTiles = emptyTiles;
     }
 
-    public int naturalSelection() throws Exception {
+    public int naturalSelection() {
         this.generateInitialPopulations();
         this.reservationTree = new PrefixTree();
         // Selection and reproduction process is done multiple times
@@ -42,21 +42,20 @@ public class Population {
                 this.reservationTree = new PrefixTree();
             }
         }
-        System.out.println("remaining tree: ");
-        reservationTree.printTree();
+//        System.out.println("remaining tree: ");
+//        reservationTree.printTree();
         int maxStateValue = reservationTree.getRoot().stateValue;
         System.out.println("Maximum state value: " + maxStateValue);
         Optional<Node> firstChildWithMaxStateValue = this.reservationTree.getRoot().children.stream()
                 .filter(node -> node.stateValue != null && node.stateValue == maxStateValue)
                 .findFirst();
 
-        if (firstChildWithMaxStateValue.isPresent()) {
-            System.out.println("Action to take: ");
-            System.out.println(firstChildWithMaxStateValue.get().content);
-            return firstChildWithMaxStateValue.get().content;
-        }
-
-        throw new Exception("Failed to find action");
+        return firstChildWithMaxStateValue.get().content;
+//        if (firstChildWithMaxStateValue.isPresent()) {
+//            System.out.println("Action to take: ");
+//            System.out.println(firstChildWithMaxStateValue.get().content);
+//            return firstChildWithMaxStateValue.get().content;
+//        }
     }
 
     public void generateInitialPopulations() {
