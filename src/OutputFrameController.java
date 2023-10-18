@@ -96,6 +96,14 @@ public class OutputFrameController {
                 }
             }
         }
+        state.getMap().set(ROW - 2,0,'X');
+        state.getMap().set(ROW - 1,0,'X');
+        state.getMap().set(ROW - 2,1,'X');
+        state.getMap().set(ROW - 1,1,'X');
+        state.getMap().set(0,COL-2,'O');
+        state.getMap().set(0,COL-1,'O');
+        state.getMap().set(1,COL-2,'O');
+        state.getMap().set(1,COL-1,'O');
 
         // Start bot
         if (botType == '1') {

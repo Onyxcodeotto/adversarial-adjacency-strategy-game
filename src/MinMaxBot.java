@@ -1,5 +1,5 @@
 public class MinMaxBot extends Bot{
-    private int maxDepth = 5;
+    private int maxDepth = 9;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
 

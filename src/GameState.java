@@ -150,4 +150,20 @@ public class GameState {
     public int evaluate(){
         return this.getBotScore()- this.getPlayerScore();
     }
+    public void printReport(){
+        System.out.print("Round Remaining   : "); System.out.print(this.roundRemaining); System.out.println();
+        System.out.print("Player Score      : "); System.out.println(this.playerScore);
+        System.out.print("Bot Score         : "); System.out.println(this.botScore);
+        System.out.println("Map:");
+        for(int i =0; i<ROW;i++){
+
+            for(int j= 0; j<COL;j++){
+                System.out.print(this.map.get(i,j));
+                System.out.print('|');
+            }
+            System.out.println("");
+
+        }
+
+    }
 }
