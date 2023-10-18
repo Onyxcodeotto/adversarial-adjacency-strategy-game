@@ -27,7 +27,7 @@ public class GameState {
         int i = 0;
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                if (map[row][col].equals('')) {
+                if (map[row][col].equals(' ')) {
                     Coordinate available = new Coordinate(row, col);
                     coorList[i] = available;
                     i = i + 1;
@@ -46,23 +46,86 @@ public class GameState {
     }
 
     public void fill(Coordinate move, char piece){
+        char oldPiece, newPiece;
         this.map.set(move.getX(), move.get(Y), piece);
 
-        if (move.get(X)-1 >= 0) {
-            this.map.set(move.getX()-1, move.get(Y), piece);
+        if (move.getX()-1 >= 0) {
+            oldPiece = this.map.get(move.getX()-1, move.getY());
+            this.map.set(move.getX()-1, move.getY(), piece);
+            newPiece = this.map.get(move.getX()-1, move.getY());
+            if (oldPiece != newPiece) {
+                if (piece == 'X') {
+                    this.playerScore = this.playerScore + 1;
+                    if (oldPiece == 'O') {
+                        this.botScore = this.botScore - 1;
+                    }
+                } else { //piece == 'O'
+                    this.botScore = this.botScore + 1;
+                    if (oldPiece == 'X') {
+                        this.playerScore = this.playerScore - 1;
+                    }
+                }
+            }
         }
         
-        if (move.get(X)+1 <= 7) {
-            this.map.set(move.getX()+1, move.get(Y), piece);
+        if (move.getX()+1 <= 7) {
+            oldPiece = this.map.get(move.getX()+1, move.getY());
+            this.map.set(move.getX()+1, move.getY(), piece);
+            newPiece = this.map.get(move.getX()+1, move.getY());
+            if (oldPiece != newPiece) {
+                if (piece == 'X') {
+                    this.playerScore = this.playerScore + 1;
+                    if (oldPiece == 'O') {
+                        this.botScore = this.botScore - 1;
+                    }
+                } else { //piece == 'O'
+                    this.botScore = this.botScore + 1;
+                    if (oldPiece == 'X') {
+                        this.playerScore = this.playerScore - 1;
+                    }
+                }
+            }
         }
 
-        if (move.get(Y)+1 <= 7) {
-            this.map.set(move.getX(), move.get(Y)+1, piece);
+        if (move.getY()+1 <= 7) {
+            oldPiece = this.map.get(move.getX(), move.getY()+1);
+            this.map.set(move.getX(), move.getY()+1, piece);
+            newPiece = this.map.get(move.getX(), move.getY()+1);
+            if (oldPiece != newPiece) {
+                if (piece == 'X') {
+                    this.playerScore = this.playerScore + 1;
+                    if (oldPiece == 'O') {
+                        this.botScore = this.botScore - 1;
+                    }
+                } else { //piece == 'O'
+                    this.botScore = this.botScore + 1;
+                    if (oldPiece == 'X') {
+                        this.playerScore = this.playerScore - 1;
+                    }
+                }
+            }
         }
 
-        if (move.get(Y)-1 >= 0) {
-            this.map.set(move.getX(), move.get(Y)-1, piece);
-        }        
+        if (move.getY()-1 >= 0) {
+            oldPiece = this.map.get(move.getX(), move.getY()-1);
+            this.map.set(move.getX(), move.getY()-1, piece);
+            newPiece = this.map.get(move.getX(), move.getY()-1);
+            if (oldPiece != newPiece) {
+                if (piece == 'X') {
+                    this.playerScore = this.playerScore + 1;
+                    if (oldPiece == 'O') {
+                        this.botScore = this.botScore - 1;
+                    }
+                } else { //piece == 'O'
+                    this.botScore = this.botScore + 1;
+                    if (oldPiece == 'X') {
+                        this.playerScore = this.playerScore - 1;
+                    }
+                }
+            }
+        }
+
+
     }
 
     public void reverse(Coordinate move){

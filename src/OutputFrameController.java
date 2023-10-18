@@ -88,11 +88,11 @@ public class OutputFrameController {
             for (int col = 0; col < 8; col++) {
                 String content = this.buttons[row][col].getText();
                 if (content.equals("")) {
-                    state.map[row][col] = '';
+                    state.getMap().set(row, col, ' ');
                 } else if (content.equals("X")) {
-                    state.map[row][col] = 'X';
+                    state.getMap().set(row, col, 'X');
                 } else if (content.equals("O")) {
-                    state.map[row][col] = 'O';
+                    state.getMap().set(row, col, 'O');
                 }
             }
         }
@@ -103,7 +103,7 @@ public class OutputFrameController {
         } else if (botType == '2') {
             this.bot = new MinMaxBot(state);
         } else if (botType == '3') {
-            this.bot = new GeneticBot(state);
+            this.bot = new GeneticAlgorithmBot(state);
         } else { //default
             this.bot = new MinMaxBot(state);
         }
@@ -227,7 +227,7 @@ public class OutputFrameController {
                 }
 
                 // Bot's turn
-                this.moveBot();
+                this.moveBot(i,j);
             }
             else {
                 this.playerXBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
@@ -383,28 +383,21 @@ public class OutputFrameController {
     }
 
     private void moveBot() {
-        
-        // UPDATING GAME STATE
-        GameState state = new GameState();
-        state.setRoundRemaining(this.roundsLeft);
-        state.setPlayerScore(this.playerXScore);
-        state.setBotScore(this.playerOScore);
-        // Making PseudoMap from Buttons
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                String content = this.buttons[row][col].getText();
-                if (content.equals("")) {
-                    state.map[row][col] = '';
-                } else if (content.equals("X")) {
-                    state.map[row][col] = 'X';
-                } else if (content.equals("O")) {
-                    state.map[row][col] = 'O';
-                }
-            }
+        int[] botMove = this.bot.move();
+        int i = botMove[0];
+        int j = botMove[1];
+
+        if (!this.buttons[i][j].getText().equals("")) {
+            new Alert(Alert.AlertType.ERROR, "Bot Invalid Coordinates. Exiting.").showAndWait();
+            System.exit(1);
+            return;
         }
-        this.bot.updateGameState(state);
-        
-        // BOT MOVE
+
+        this.selectedCoordinates(i, j);
+    }
+
+    private void moveBot(int row, int col) {
+        this.bot.getState().fill(new Coordinate(row, col), this.bot.getState().getPlayerPiece());
         int[] botMove = this.bot.move();
         int i = botMove[0];
         int j = botMove[1];
