@@ -72,8 +72,8 @@ public class OutputFrameController {
 
     // PERLU DIPERIKSA ULANG!!
     void getInput(String name1, String name2, String rounds, boolean isBotFirst, char botType){
-        this.playerXName.setText(name1);
-        this.playerOName.setText(name2);
+        this.playerXName.setText(name2);
+        this.playerOName.setText(name1);
         this.roundsLeftLabel.setText(rounds);
         this.roundsLeft = Integer.parseInt(rounds);
         this.isBotFirst = isBotFirst;
@@ -167,14 +167,14 @@ public class OutputFrameController {
         }
 
         // Setting up the initial game board with 4 X's in bottom left corner and 4 O's in top right corner.
-        this.buttons[ROW - 2][0].setText("X");
-        this.buttons[ROW - 1][0].setText("X");
-        this.buttons[ROW - 2][1].setText("X");
-        this.buttons[ROW - 1][1].setText("X");
-        this.buttons[0][COL - 2].setText("O");
-        this.buttons[0][COL - 1].setText("O");
-        this.buttons[1][COL - 2].setText("O");
-        this.buttons[1][COL - 1].setText("O");
+        this.buttons[ROW - 2][0].setText(" X ");
+        this.buttons[ROW - 1][0].setText(" X ");
+        this.buttons[ROW - 2][1].setText(" X ");
+        this.buttons[ROW - 1][1].setText(" X ");
+        this.buttons[0][COL - 2].setText(" O ");
+        this.buttons[0][COL - 1].setText(" O ");
+        this.buttons[1][COL - 2].setText(" O ");
+        this.buttons[1][COL - 1].setText(" O ");
 
 
         // Construct score board with 8 rows.
@@ -222,7 +222,7 @@ public class OutputFrameController {
                 // Changed background color to green to indicate next player's turn.
                 this.playerXBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
                 this.playerOBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
-                this.buttons[i][j].setText("X");  // Mark the board with X.
+                this.buttons[i][j].setText(" O ");  // Mark the board with X.
                 this.playerXScore++;              // Increment the score of player X.
 
                 // Update game board by changing surrounding cells to X if applicable.
@@ -244,7 +244,7 @@ public class OutputFrameController {
             else {
                 this.playerXBoxPane.setStyle("-fx-background-color: #90EE90; -fx-border-color: #D3D3D3;");
                 this.playerOBoxPane.setStyle("-fx-background-color: WHITE; -fx-border-color: #D3D3D3;");
-                this.buttons[i][j].setText("O");
+                this.buttons[i][j].setText("X");
                 this.playerOScore++;
 
                 this.updateGameBoard(i, j);
@@ -314,16 +314,16 @@ public class OutputFrameController {
 
     private void setPlayerScore(int i, int j){
         if (this.playerXTurn) {
-            if (this.buttons[i][j].getText().equals("O")) {
-                this.buttons[i][j].setText("X");
+            if (this.buttons[i][j].getText().equals(" X ")) {
+                this.buttons[i][j].setText(" O ");
                 this.playerXScore++;
                 this.playerOScore--;
             }
-        } else if (this.buttons[i][j].getText().equals("X")) {
-            this.buttons[i][j].setText("O");
+        } else {if (this.buttons[i][j].getText().equals(" O ")) {
+            this.buttons[i][j].setText(" X ");
             this.playerOScore++;
             this.playerXScore--;
-        }
+        }}
     }
 
 

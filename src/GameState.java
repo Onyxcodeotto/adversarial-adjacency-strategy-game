@@ -10,8 +10,8 @@ public class GameState {
 
     public static final int ROW = 8;
     public static final int COL = 8;
-    public static final char aiPiece = 'O';
-    public static final char playerPiece = 'X';
+    public static final char aiPiece = 'X';
+    public static final char playerPiece = 'O';
     /*We may store stack of move to store last move so we dont need parameter
      * for getLastMove() and reverse()
     */

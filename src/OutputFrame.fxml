@@ -34,7 +34,7 @@
             </HBox>
 
             <HBox alignment="CENTER" GridPane.rowIndex="3" GridPane.columnIndex="0">
-                <Label text="Player X" >
+                <Label text="Player O" >
                     <font>
                         <Font name="Arial Bold" size="12"/>
                     </font>
@@ -42,7 +42,7 @@
             </HBox>
 
             <HBox alignment="CENTER" GridPane.rowIndex="3" GridPane.columnIndex="1">
-                <Label text="Player O">
+                <Label text="Player X">
                     <font>
                         <Font name="Arial Bold" size="12"/>
                     </font>

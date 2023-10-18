@@ -1,24 +1,36 @@
+import javax.naming.TimeLimitExceededException;
+
 public class MinMaxBot extends Bot{
-    private int maxDepth = 9;
+    private int maxDepth = 7;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
-
+    private long time;
 
     public MinMaxBot(GameState state) {
         super(state);
     }
 
     public int[] move() {
+    // try{
+        time = System.currentTimeMillis();
         MinMaxIntermediate result = this.solve(true, this.MAX_INIT, this.MIN_INIT, maxDepth);
         System.out.print(result.getMove().getX());
         System.out.print(" ");
         System.out.println(result.getMove().getY());
         return new int[]{(int) (result.getMove().getX()), (int) (result.getMove().getY())};
+    //}
+    /*catch(TimeLimitExceededException e){
+        System.out.println("Random Move");
+        return int[]{0, 0};
+    }*/
     }
 
     public MinMaxIntermediate solve(boolean isMaximizing, int alpha, int beta, int depth){//return x, y, and score
+        /*if(time-System.currentTimeMillis()>5000F){
+            throw new TimeLimitExceededException();
+        }*/
         if(this.state.isGameEnded() || depth==0){
-//            this.getState().printReport();
+        //    this.getState().printReport();
             return new MinMaxIntermediate(this.state.getLastMove(), this.state.evaluate());
         }else{
 
