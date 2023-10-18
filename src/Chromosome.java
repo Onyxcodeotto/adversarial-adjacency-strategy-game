@@ -58,6 +58,7 @@ public class Chromosome {
                         0, Math.min(this.emptyTiles.size(), this.maxLength)
                 )
         );
+//        System.out.println(this.sequence);
     }
 
     public ArrayList<Chromosome> crossover(Chromosome chromosome) {
@@ -103,6 +104,10 @@ public class Chromosome {
         }
     }
 
+    /**
+     * Elements in the sequence must be unique
+     * @return
+     */
     public boolean isSequenceValid() {
         Set<Integer> seen = new HashSet<>();
         for (Integer element : this.sequence) {

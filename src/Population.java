@@ -10,7 +10,7 @@ public class Population {
     private char[][] gameMap;
     private final char playerPiece;
     private final char opponentPiece;
-    private static final int INITIAL_POPULATION_SIZE = 1000;
+    private static final int INITIAL_POPULATION_SIZE = 100;
     private static final int MAX_ITERATIONS = 5;
 
     public Population(int maxTurns, char playerPiece, char opponentPiece) {
@@ -45,11 +45,13 @@ public class Population {
 //        System.out.println("remaining tree: ");
 //        reservationTree.printTree();
         int maxStateValue = reservationTree.getRoot().stateValue;
-        System.out.println("Maximum state value: " + maxStateValue);
+
+//        this.reservationTree.getRoot().children.forEach(child -> System.out.println("content: " + child.content + " value: " + child.stateValue));
+//        System.out.println("Maximum state value: " + maxStateValue);
         Optional<Node> firstChildWithMaxStateValue = this.reservationTree.getRoot().children.stream()
                 .filter(node -> node.stateValue != null && node.stateValue == maxStateValue)
                 .findFirst();
-
+        System.out.println("result of natural selection: " + firstChildWithMaxStateValue.get().content);
         return firstChildWithMaxStateValue.get().content;
 //        if (firstChildWithMaxStateValue.isPresent()) {
 //            System.out.println("Action to take: ");

@@ -401,9 +401,15 @@ public class OutputFrameController {
         int j = botMove[1];
         this.bot.getState().fill(new Coordinate(i, j), this.bot.getState().getAIPiece());
         if (!this.buttons[i][j].getText().equals("")) {
-            new Alert(Alert.AlertType.ERROR, "Bot Invalid Coordinates. Exiting.").showAndWait();
-            System.exit(1);
-            return;
+            // fallback plan: fill first empty tile
+            for (int k = 0; k < ROW; k++) {
+                for (int l = 0; l < COL; l++) {
+                    if (this.buttons[k][l].getText().equals("")) {
+                        i = k;
+                        j = l;
+                    }
+                }
+            }
         }
 
         this.selectedCoordinates(i, j);

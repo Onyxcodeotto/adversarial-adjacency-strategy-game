@@ -23,6 +23,12 @@ public class GeneticAlgorithmBot extends Bot {
         for (Coordinate coordinate : emptyTilesCoordinate) {
             this.emptyTiles.add(coordinate.getX() * COLS + coordinate.getY());
         }
+
+        System.out.println("empty tiles in bot");
+        for (int tile : emptyTiles) {
+            System.out.print(tile);
+            System.out.print("; ");
+        }
         this.gameMap = new char[ROWS][COLS];
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
@@ -41,7 +47,15 @@ public class GeneticAlgorithmBot extends Bot {
         int result = this.population.naturalSelection();
         int rowToFill = result / ROWS;
         int colToFill = result % COLS;
-        System.out.println("Calculated Move");
+        System.out.printf("Calculated Move: %d, %d\n", rowToFill, colToFill);
+        boolean tileAlreadyFilled = false;
+        for (Coordinate coordinate : this.state.getEmptyTile()) {
+            if (coordinate.getX() == rowToFill && coordinate.getY() == colToFill) {
+                tileAlreadyFilled = true;
+                break;
+            }
+        }
+
         return new int[] {rowToFill, colToFill};
 //        try {
 //            int result = this.population.naturalSelection();
