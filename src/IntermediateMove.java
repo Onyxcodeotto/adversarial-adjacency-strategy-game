@@ -4,9 +4,8 @@ public class IntermediateMove {
      char right;
      char bottom;
      char center;
-
+     Coordinate coor;
     public IntermediateMove(){
-
     };
 
     public void setUp(char up){
@@ -24,5 +23,28 @@ public class IntermediateMove {
     public void setCenter(char center){
         this.center = center;
     }
+    public void setCoor(int i, int j){
+        this.coor = new Coordinate(i,j);
+    }
+    public Coordinate getCoor(){return this.coor;}
 
+    public char getUp() {
+        return up;
+    }
+
+    public char getBottom() {
+        return bottom;
+    }
+
+    public char getCenter() {
+        return center;
+    }
+
+    public char getLeft() {
+        return left;
+    }
+
+    public char getRight() {
+        return right;
+    }
 }
