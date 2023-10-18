@@ -2,7 +2,8 @@ public class MinMaxBot extends Bot{
     private int maxDepth;
     private int MAX_INIT = -100;
     private int MIN_INIT = 100;
-    
+
+
     public MinMaxBot(GameState state) {
         super(state);
     }
@@ -22,7 +23,7 @@ public class MinMaxBot extends Bot{
                 for (Coordinate move : state.getEmptyTile()) {
                     this.state.fill(move, this.state.getAIPiece());
                     MinMaxIntermediate result = this.solve(false, localAlpha, beta, depth-1);
-                    this.state.reverse(move);
+                    this.state.reverse();
                     int newval = result.getVal();
                     if(newval>maxval){
                         bestMove = result;
@@ -42,8 +43,8 @@ public class MinMaxBot extends Bot{
                 for (Coordinate move : this.state.getEmptyTile()){
                     this.state.fill(move, this.state.getPlayerPiece());
                     MinMaxIntermediate result = this.solve(true, alpha, localBeta, depth-1);
-                    this.state.reverse(move);
-                    int newValue = result.getVal()
+                    this.state.reverse();
+                    int newValue = result.getVal();
                     if(newValue<minvalue){
                         bestMove = result;
                     }
