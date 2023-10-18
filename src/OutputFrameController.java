@@ -80,11 +80,9 @@ public class OutputFrameController {
 
         // Constructing the GameState
         GameState state = new GameState();
-        state.roundRemaining = this.roundsLeft;
-        state.aiPiece = 'O';
-        state.playerPiece = 'X';
-        state.playerScore = this.playerXScore;
-        state.botScore = this.playerOScore;
+        state.setRoundRemaining(this.roundsLeft);
+        state.setPlayerScore(this.playerXScore);
+        state.setBotScore(this.playerOScore);
         // Making PseudoMap from Buttons
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -104,8 +102,8 @@ public class OutputFrameController {
             this.bot = new LocalSearchBot(state, 'O', 'X');
         } else if (botType == '2') {
             this.bot = new MinMaxBot(state);
-        // } else if (botType == '3') {
-        //     this.bot = new GeneticBot(state);
+        } else if (botType == '3') {
+            this.bot = new GeneticBot(state);
         } else { //default
             this.bot = new MinMaxBot(state);
         }
@@ -388,9 +386,22 @@ public class OutputFrameController {
         
         // UPDATING GAME STATE
         GameState state = new GameState();
-        state.roundRemaining = this.roundsLeft;
-        state.playerScore = this.playerXScore;
-        state.botScore = this.playerOScore;
+        state.setRoundRemaining(this.roundsLeft);
+        state.setPlayerScore(this.playerXScore);
+        state.setBotScore(this.playerOScore);
+        // Making PseudoMap from Buttons
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                String content = this.buttons[row][col].getText();
+                if (content.equals("")) {
+                    state.map[row][col] = '';
+                } else if (content.equals("X")) {
+                    state.map[row][col] = 'X';
+                } else if (content.equals("O")) {
+                    state.map[row][col] = 'O';
+                }
+            }
+        }
         this.bot.updateGameState(state);
         
         // BOT MOVE

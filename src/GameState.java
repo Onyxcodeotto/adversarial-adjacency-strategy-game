@@ -1,8 +1,6 @@
 public class GameState {
 
     private int roundRemaining;
-    private char aiPiece;
-    private char playerPiece;
     // Map
     private PseudoMap map;
     private int playerScore;
@@ -10,6 +8,8 @@ public class GameState {
 
     public static final int ROW = 8;
     public static final int COL = 8;
+    public static final char aiPiece = 'O';
+    public static final char playerPiece = 'X';
     /*We may store stack of move to store last move so we dont need parameter
      * for getLastMove() and reverse()
     */
@@ -47,10 +47,22 @@ public class GameState {
 
     public void fill(Coordinate move, char piece){
         this.map.set(move.getX(), move.get(Y), piece);
-        this.map.set(move.getX()+1, move.get(Y), piece);
-        this.map.set(move.getX(), move.get(Y)+1, piece);
-        this.map.set(move.getX()-1, move.get(Y), piece);
-        this.map.set(move.getX(), move.get(Y)-1, piece);
+
+        if (move.get(X)-1 >= 0) {
+            this.map.set(move.getX()-1, move.get(Y), piece);
+        }
+        
+        if (move.get(X)+1 <= 7) {
+            this.map.set(move.getX()+1, move.get(Y), piece);
+        }
+
+        if (move.get(Y)+1 <= 7) {
+            this.map.set(move.getX(), move.get(Y)+1, piece);
+        }
+
+        if (move.get(Y)-1 >= 0) {
+            this.map.set(move.getX(), move.get(Y)-1, piece);
+        }        
     }
 
     public void reverse(Coordinate move){
@@ -73,5 +85,18 @@ public class GameState {
 
     public PseudoMap getMap(){
         return this.map;
+    }
+
+    //SETTER
+    public void setRoundRemaining(int roundRemaining) {
+        this.roundRemaining = roundRemaining;
+    }
+
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
+    }
+
+    public void setBotScore(int botScore) {
+        this.botScore = botScore;
     }
 }
